@@ -18,8 +18,8 @@ extern const int classes_cnt;
 // 网络结构
 static const unsigned int NN_def[] = {first_layer_input_cnt, 20, classes_cnt};
 
-// ⚠️ 确保 data_A_new.h 是用脚本生成的：训练集缺2，但测试集包含全量数据
-#include "data_A_new.h"      
+
+#include "Client_A_data.h"      
 #include "NN_functions.h"
 
 // 全局变量
@@ -193,6 +193,9 @@ void loop() {
     Serial.println("       ALL ROUNDS FINISHED       ");
     Serial.println("=================================");
     printDetailedTest(); // 最后再测一次
+    // 导出模型
+    delay(1000);
+    exportModelToHeader();
     while(1); // 死循环结束
   }
 }

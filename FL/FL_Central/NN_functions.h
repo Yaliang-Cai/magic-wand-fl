@@ -377,10 +377,10 @@ void printDetailedTest() {
     Serial.print("]");
     
     if (predicted == actual) {
-      Serial.println(" ✅");
+      Serial.println(" Correct");
       correct++;
     } else {
-      Serial.println(" ❌");
+      Serial.println(" Wrong");
     }
   }
   
@@ -443,6 +443,44 @@ void packUnpackVector(int Type)
       }
     }
   }
+}
+
+// === New function: Print the model in C header file format ===
+void exportModelToHeader() {
+  // 1. Make sure that WeightBiasPtr is up-to-date (by collecting data from the neuron structure)
+  packUnpackVector(0); // 0 = PACK mode
+
+  Serial.println("\n\n// copy_start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  Serial.println("// Save the following content as TrainedModel.h");
+  Serial.println("#ifndef TRAINED_MODEL_H");
+  Serial.println("#define TRAINED_MODEL_H");
+  
+  Serial.print("const int SAVED_WEIGHTS_CNT = ");
+  int total_weights = calcTotalWeightsBias();
+  Serial.print(total_weights);
+  Serial.println(";");
+
+  Serial.println("// The trained weight array (Weights & Biases)");
+  Serial.println("const float SAVED_WEIGHTS[] = {");
+
+  // 2. Traverse and print all weights
+  for (int i = 0; i < total_weights; i++) {
+    // Print a floating-point number, retaining 6 decimal places
+    Serial.print(WeightBiasPtr[i], 6);
+    
+    // Formatting: Add commas, print 10 numbers per line for easier reading
+    if (i < total_weights - 1) {
+      Serial.print(", ");
+    }
+    if ((i + 1) % 10 == 0) {
+      Serial.println(); //line feed
+      Serial.print("  "); // retract
+    }
+  }
+
+  Serial.println("\n};");
+  Serial.println("#endif");
+  Serial.println("// copy_end <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 }
 
 // Called from main in setup-function
