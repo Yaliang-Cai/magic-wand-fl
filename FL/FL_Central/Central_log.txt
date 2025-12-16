@@ -1,0 +1,213 @@
+00, 1=0.61, 2=0.39] Correct
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 42 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 92
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+>>> ROUND FAILED: Connection Error. Retrying in 2s... <<<
+
+=== STARTING ROUND 42 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 94
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 1 [Prob: 0=0.00, 1=0.83, 2=0.17] Wrong
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.49, 2=0.51] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.86, 2=0.14] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.36, 2=0.64] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.70, 2=0.30] Correct
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 43 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 96
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.35, 2=0.65] Correct
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.20, 2=0.80] Wrong
+Sample 3 | Actual: 1 -> Pred: 2 [Prob: 0=0.00, 1=0.49, 2=0.51] Wrong
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.11, 2=0.89] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 2 [Prob: 0=0.00, 1=0.24, 2=0.76] Wrong
+Final Detailed Accuracy: 0.62
+
+=== STARTING ROUND 44 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 98
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 1 [Prob: 0=0.00, 1=0.82, 2=0.18] Wrong
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 1 [Prob: 0=0.00, 1=0.51, 2=0.49] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.88, 2=0.12] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.40, 2=0.60] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.74, 2=0.26] Correct
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 45 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 100
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.41, 2=0.59] Correct
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.24, 2=0.76] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.59, 2=0.41] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.15, 2=0.85] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 2 [Prob: 0=0.00, 1=0.33, 2=0.67] Wrong
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 46 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 102
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.21, 2=0.79] Correct
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.17, 2=0.83] Wrong
+Sample 3 | Actual: 1 -> Pred: 2 [Prob: 0=0.00, 1=0.43, 2=0.57] Wrong
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.09, 2=0.91] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 2 [Prob: 0=0.00, 1=0.20, 2=0.80] Wrong
+Final Detailed Accuracy: 0.62
+
+=== STARTING ROUND 47 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 104
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 1 [Prob: 0=0.00, 1=0.67, 2=0.33] Wrong
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.43, 2=0.57] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.84, 2=0.16] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.30, 2=0.70] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.67, 2=0.33] Correct
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 48 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 106
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 1 [Prob: 0=0.00, 1=0.59, 2=0.41] Wrong
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.39, 2=0.61] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.81, 2=0.19] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.25, 2=0.75] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.62, 2=0.38] Correct
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 49 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 108
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.32, 2=0.68] Correct
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.24, 2=0.76] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.64, 2=0.36] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.13, 2=0.87] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 2 [Prob: 0=0.00, 1=0.38, 2=0.62] Wrong
+Final Detailed Accuracy: 0.75
+
+=== STARTING ROUND 50 / 50 ===
+[Local] Training started...
+[Local] Training Done. Total Epochs: 110
+[BLE] Scanning for Peripheral (Node B)...
+[BLE] Connected.
+[BLE] Downloading weights from B...
+[FedAvg] Aggregating using packUnpackVector(AVERAGE)...
+[BLE] Uploading Global Model to B...
+>>> ROUND COMPLETE: Model Updated <<<
+[Metric] Detailed Accuracy after Aggregation: 
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.50, 2=0.50] Correct
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.35, 2=0.65] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.80, 2=0.20] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.22, 2=0.78] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.60, 2=0.40] Correct
+Final Detailed Accuracy: 0.88
+
+=================================
+       ALL ROUNDS FINISHED       
+=================================
+
+--- DETAILED PREDICTIONS (Test Data) ---
+Sample 0 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.50, 2=0.50] Correct
+Sample 1 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 2 | Actual: 0 -> Pred: 2 [Prob: 0=0.00, 1=0.35, 2=0.65] Wrong
+Sample 3 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.80, 2=0.20] Correct
+Sample 4 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 5 | Actual: 2 -> Pred: 2 [Prob: 0=0.00, 1=0.22, 2=0.78] Correct
+Sample 6 | Actual: 0 -> Pred: 0 [Prob: 0=1.00, 1=0.00, 2=0.00] Correct
+Sample 7 | Actual: 1 -> Pred: 1 [Prob: 0=0.00, 1=0.60, 2=0.40] Correct
+Final Detailed Accuracy: 0.88

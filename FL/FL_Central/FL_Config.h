@@ -8,8 +8,8 @@ const char* FL_WEIGHT_CHAR_UUID    = "19B10001-E8F2-537E-4F6C-D104768A1214"; // 
 const char* FL_STATUS_CHAR_UUID    = "19B10002-E8F2-537E-4F6C-D104768A1214"; // 同步状态
 
 // === 训练超参数 ===
-const int EPOCHS_PER_ROUND = 10; // 每次聚合前，本地训练 10 轮
-const int TOTAL_ROUNDS = 5;      // 总共进行 5 次联邦聚合
+const int EPOCHS_PER_ROUND = 2; // 每次聚合前，本地训练 10 轮
+const int TOTAL_ROUNDS = 50;      // 总共进行 5 次联邦聚合
 
 // === 传输协议配置 (Chunking) ===
 // 单次传输 32 个 float (128 字节)，这在 BLE 限制内是安全的

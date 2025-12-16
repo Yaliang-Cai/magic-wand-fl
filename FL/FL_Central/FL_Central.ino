@@ -5,7 +5,7 @@
 #include <ArduinoBLE.h>
 
 // === 配置区域 ===
-#define LEARNING_RATE 0.1
+#define LEARNING_RATE 0.005
 #define DATA_TYPE_FLOAT       
 #define DEBUG 0
 
@@ -18,7 +18,7 @@ extern const int classes_cnt;
 // 网络结构
 static const unsigned int NN_def[] = {first_layer_input_cnt, 20, classes_cnt};
 
-// ⚠️ 确保 data_A.h 是用脚本生成的：训练集缺2，但测试集包含全量数据
+// ⚠️ 确保 data_A_new.h 是用脚本生成的：训练集缺2，但测试集包含全量数据
 #include "data_A_new.h"      
 #include "NN_functions.h"
 
@@ -26,6 +26,10 @@ static const unsigned int NN_def[] = {first_layer_input_cnt, 20, classes_cnt};
 int iter_cnt = 0;        
 int current_round = 0;   
 int weights_count = 0;
+// DATA_TYPE* WeightBiasPtr = NULL; // ⚠️ 已在 NN_functions.h 中定义，这里必须注释掉
+
+// 🔥 新增：运行状态标志位
+bool fl_running = false; 
 
 // 1. 本地训练
 void do_local_training() {
@@ -40,11 +44,6 @@ void do_local_training() {
     iter_cnt++;
   }
   Serial.print("[Local] Training Done. Total Epochs: "); Serial.println(iter_cnt);
-  
-  // 这里使用的是 data_A.h 里的 test_data
-  // 如果 test_data 是全量的，这里就能看到对 Class 2 的预测能力
-  Serial.print("[Metric] Current Accuracy (on Global Test Set): "); 
-  printAccuracy();
 }
 
 // 2. 联邦聚合逻辑 (内存优化版)
@@ -58,7 +57,7 @@ bool do_federated_aggregation() {
   while (!peripheral) {
     if (millis() - startScan > 10000) {
       BLE.stopScan();
-      Serial.println("[BLE] Timeout.");
+      Serial.println("[BLE] Timeout. Retrying...");
       return false; 
     }
     peripheral = BLE.available();
@@ -75,14 +74,13 @@ bool do_federated_aggregation() {
       byte status = 0;
       while (status != STATUS_READY_TO_AGGREGATE) {
         sChar.readValue(status);
+        BLE.poll(); 
       }
       
       // 发送 ACK，通知 B 开始发送
       sChar.writeValue((byte)STATUS_A_READ_ACK);
 
       // --- A. 下载 B 的权重 ---
-      // 优化点：直接把 B 的权重读入全局缓冲区 WeightBiasPtr
-      // 此时：本地网络 L 存的是 A 的旧权重，WeightBiasPtr 存的是 B 的新权重
       Serial.println("[BLE] Downloading weights from B...");
       int recv_count = 0;
       bool receiving = true;
@@ -92,7 +90,6 @@ bool do_federated_aggregation() {
            int chunk_len = CHUNK_SIZE_FLOATS;
            if (recv_count + chunk_len > weights_count) chunk_len = weights_count - recv_count;
            
-           // 直接读入 buffer
            wChar.readValue((uint8_t*)(WeightBiasPtr + recv_count), chunk_len * sizeof(float));
            recv_count += chunk_len;
            
@@ -104,11 +101,6 @@ bool do_federated_aggregation() {
 
       // --- B. 计算平均 (核心优化) ---
       Serial.println("[FedAvg] Aggregating using packUnpackVector(AVERAGE)...");
-      
-      // 调用 AVERAGE 模式
-      // 逻辑：L_new = (L_old + WeightBiasPtr) / 2
-      //      WeightBiasPtr = L_new
-      // 效果：本地网络更新了，且 WeightBiasPtr 里已经是平均后的权重，可以直接发回给 B
       packUnpackVector(2); // 2 = AVERAGE
 
       // --- C. 上传 Global Model ---
@@ -129,6 +121,9 @@ bool do_federated_aggregation() {
       }
 
       sChar.writeValue((byte)STATUS_AGGREGATION_DONE);
+      
+      // 给一点时间断开
+      delay(500); 
       peripheral.disconnect();
       return true;
     }
@@ -152,36 +147,52 @@ void setup() {
   setupNN(WeightBiasPtr);
 
   Serial.println("Arduino A (Central) Ready.");
-  Serial.println("Press button to start.");
+  Serial.println("Press button ONCE to start FULL AUTOMATED FL."); // 提示按一次全自动
   printAccuracy();
 }
 
 void loop() {
-  bool clicked = readShieldButton();
-  if (clicked) {
-    if (current_round < TOTAL_ROUNDS) {
-      Serial.print("\n=== STARTING ROUND "); Serial.print(current_round + 1); Serial.println(" ===");
-      
-      // 1. 本地训练 (训练集缺2)
-      do_local_training();
-      
-      // 2. 联邦聚合 (融合 B 的 Class 2 知识)
-      if (do_federated_aggregation()) {
-        Serial.println(">>> ROUND COMPLETE: Model Updated <<<");
-        current_round++;
-        
-        // 聚合后立刻打印准确率，查看提升
-        Serial.print("[Metric] Accuracy after Aggregation: ");
-        // printAccuracy();
-        printDetailedTest();
-
-      } else {
-        Serial.println(">>> ROUND FAILED: Connection Error <<<");
-      }
-    } else {
-      Serial.println("All rounds finished!");
-      // 最后再跑一次全量测试确认
-      printAccuracy();
+  // 1. 等待启动信号 (只按一次)
+  if (!fl_running) {
+    if (readShieldButton()) {
+      fl_running = true;
+      Serial.println("\n>>> AUTOMATIC FL STARTED <<<");
+      delay(1000); // 防抖
     }
+    return; // 没按就一直在这等
+  }
+
+  // 2. 自动循环逻辑
+  if (current_round < TOTAL_ROUNDS) {
+    Serial.print("\n=== STARTING ROUND "); Serial.print(current_round + 1); 
+    Serial.print(" / "); Serial.print(TOTAL_ROUNDS); Serial.println(" ===");
+    
+    // A. 本地训练
+    do_local_training();
+    
+    // B. 联邦聚合
+    if (do_federated_aggregation()) {
+      Serial.println(">>> ROUND COMPLETE: Model Updated <<<");
+      current_round++;
+      
+      // 打印详细测试结果
+      Serial.print("[Metric] Detailed Accuracy after Aggregation: ");
+      printDetailedTest(); // 确保这里用的是 printDetailedTest
+      
+    } else {
+      Serial.println(">>> ROUND FAILED: Connection Error. Retrying in 2s... <<<");
+      delay(2000); // 失败稍微等一下再试，或者直接重试
+    }
+    
+    // 每一轮结束后休息一下，让串口数据吐完，也给 B 一点时间准备
+    delay(1000); 
+
+  } else {
+    // 3. 全部跑完
+    Serial.println("\n=================================");
+    Serial.println("       ALL ROUNDS FINISHED       ");
+    Serial.println("=================================");
+    printDetailedTest(); // 最后再测一次
+    while(1); // 死循环结束
   }
 }
