@@ -4,7 +4,7 @@
 #include <TinyMLShield.h>
 #include <ArduinoBLE.h>
 
-#define LEARNING_RATE 0.1
+#define LEARNING_RATE 0.005
 #define DATA_TYPE_FLOAT
 #define DEBUG 0
 
@@ -26,7 +26,10 @@ BLEByteCharacteristic statusChar(FL_STATUS_CHAR_UUID, BLERead | BLEWrite);
 int iter_cnt = 0;
 int current_round = 0;
 int weights_count = 0;
+// DATA_TYPE* WeightBiasPtr = NULL; // ⚠️ 已在 NN_functions.h 中定义，这里必须注释掉
 
+// 🔥 新增：运行状态标志位
+bool fl_running = false;
 
 void setup() {
   Serial.begin(9600);
@@ -56,7 +59,7 @@ void setup() {
   BLE.advertise();
 
   Serial.println("Arduino B (Peripheral) Ready.");
-  Serial.println("Press button to start Local Training & Wait for Server.");
+  Serial.println("Press button ONCE to start FULL AUTOMATED FL.");
 }
 
 // 执行本地训练和通信等待
@@ -75,7 +78,7 @@ void do_round_task() {
     iter_cnt++;
   }
   Serial.println("[Local] Training Done.");
-  printAccuracy();
+  // printAccuracy(); // 自动模式下这一行可以注释掉，减少刷屏，以 Central 的输出为主
 
   // 2. 准备数据
   packUnpackVector(0); // PACK
@@ -86,6 +89,8 @@ void do_round_task() {
 
   // 循环等待直到聚合完成
   bool done = false;
+  unsigned long waitStart = millis(); // 可选：加入超时检测
+  
   while (!done) {
     BLE.poll();
     byte status = statusChar.value();
@@ -109,7 +114,7 @@ void do_round_task() {
     }
     else if (status == STATUS_A_SENDING_CHUNK) {
        // A 发回了新权重，我们要读
-       static int recv_count = 0; // 静态变量记录进度
+       static int recv_count = 0; 
        int chunk_len = CHUNK_SIZE_FLOATS;
        if (recv_count + chunk_len > weights_count) chunk_len = weights_count - recv_count;
        
@@ -127,24 +132,37 @@ void do_round_task() {
 
   // 4. 更新模型
   packUnpackVector(1); // UNPACK
-  Serial.println(">>> ROUND COMPLETE: Model Updated <<<");
+  Serial.println(">>> ROUND COMPLETE: Model Updated <<<\n");
   
   current_round++;
   statusChar.writeValue(STATUS_TRAINING);
 }
 
 void loop() {
-  // 只有按下按钮才开始工作，符合 BP.ino 的交互逻辑
-  bool clicked = readShieldButton();
-  
-  if (clicked) {
-    if (current_round < TOTAL_ROUNDS) {
-      do_round_task();
-    } else {
-      Serial.println("All rounds finished.");
+  // 1. 等待启动信号 (只按一次)
+  if (!fl_running) {
+    if (readShieldButton()) {
+      fl_running = true;
+      Serial.println("\n>>> AUTOMATIC FL STARTED <<<");
+      delay(1000);
     }
+    // 保持 BLE 轮询，虽然还没开始业务
+    BLE.poll();
+    return;
+  }
+
+  // 2. 自动循环逻辑
+  if (current_round < TOTAL_ROUNDS) {
+    // 执行一轮完整的任务 (训练 -> 等待连接 -> 接收更新)
+    do_round_task();
+    
+    // 稍微延时，给 Central 断开连接的时间
+    delay(500); 
+  } else {
+    Serial.println("All rounds finished. Stopping.");
+    while(1);
   }
   
-  // 保持 BLE 后台活跃
+  // 保持 BLE 活跃 (关键)
   BLE.poll();
 }
