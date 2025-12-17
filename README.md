@@ -85,3 +85,4 @@ The Python training process should give you a `magic_wand_model_data.cc` file. R
 
 Upload this modified sketch, and you should be able to perform gestures and see them recognized in the Serial Monitor of your Arduino editor.
 
+
