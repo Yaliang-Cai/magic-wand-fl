@@ -1,88 +1,79 @@
-# Magic Wand
+# Gesture Recognition with Arduino and TinyML
 
-Magic Wand example for [TensorFlow Lite Micro](https://www.tensorflow.org/lite/microcontrollers) on the [Arduino Nano 33 BLE Sense](https://store.arduino.cc/usa/tiny-machine-learning-kit).
+Gesture Recognition example for [TensorFlow Lite Micro](https://www.tensorflow.org/lite/microcontrollers) on the [Arduino Nano 33 BLE Sense](https://store.arduino.cc/usa/tiny-machine-learning-kit).
 
 ## Introduction
 
-This project shows you how to recognize gestures made by waving a magic wand, using machine learning to analyze accelerometer and gyroscope data. It demonstrates the three main stages of an end-to-end machine learning project:
+This project implements a motion-based gesture recognition system using two Arduino boards equipped with IMU sensors. The system is designed to recognize spell-based movement patterns, specifically the W and O gestures, while demonstrating how machine learning can be distributed between a personal computer and resource-constrained IoT devices.
 
- - **Gathering Data**. Using a Bluetooth connection to a web page, you can capture gestures, label them, and download the results.
- - **Training**. A Python notebook on the free Colab service shows how to use TensorFlow to train a model to recognize gestures from your data.
- - **Deployment**. You can deploy your trained model to the Arduino board using TensorFlow Lite Micro and the Arduino IDE.
- 
- ## Hardware Requirements
- 
- You'll need the following:
- 
-  - Arduino Nano 33 BLE Sense board. These are available as part of [the TinyML Starter Kit](https://store.arduino.cc/usa/tiny-machine-learning-kit), or separately from Arduino or resellers. Other Arduinos won't work unfortunately, because the Bluetooth and sensor code rely on accessing the particular hardware of the Nano BLE Sense.
-  - MicroUSB cable. This is included in the TinyML Kit, but you'll need a USB-A adaptor too if your computer only has USB-C ports. Because we'll be waving the board around, you should also make sure the cable is at least a c
-  - Computer. The Arduino toolchain runs on Linux, Windows, and MacOS, so you should be able to use most laptops, desktops, or even a Raspberry Pi. For the training process, you'll also need an up-to-date version of the Chrome web browser so you can use the Web Bluetooth APIs.
-  - Stick. We'll be attaching your Arduino to a 'wand', but this can be practically anything, as long as it's roughly a foot (30 centimeters) long.
-  
-## Installing the Sketch
-  
-You'll need to ensure you can successfully connect and load sketches onto your Arduino board, using either the desktop IDE or the online web editor. Once you've made sure you can load a simple sketch successfully, you'll follow these steps depending on whether you're in the web or desktop application:
+The machine learning pipeline follows a hybrid workflow. Data preprocessing, experimentation with different model architectures, and model selection are performed on a PC. After selecting the final model, inference is deployed on the Arduino boards, where motion data is captured and processed in real time using the onboard IMU sensors. Each Arduino device is configured to recognize one specific gesture, illustrating a practical TinyML deployment scenario.
+
+The project covers the complete end-to-end workflow of a machine learning system:
+
+- Data Collection: Gesture data is recorded through a web-based interface using Bluetooth, allowing users to capture, label, and download sensor data.
+- Training: The collected data is used to train a gesture recognition model using TensorFlow in a Python environment.
+- Deployment: The trained model is converted into a TinyML-compatible format and deployed on Arduino using TensorFlow Lite Micro.
+
+This repository contains the full implementation, including datasets, training scripts, embedded code, and documentation, making it easy to understand, reproduce, and extend the project.
+
+> **Note:**  
+> The web-based gesture recording interface used for data collection is adapted from the Magic Wand example project by Pete Warden.
+
+## Hardware Requirements
+
+To run this project, the following hardware is required:
+
+- Arduino Nano 33 BLE Sense: This board is required because the project relies on its built-in Bluetooth capability and IMU sensors. Other Arduino boards are not supported, as they do not provide the same hardware features.
+- Micro-USB cable: Used to connect the Arduino board to the computer for programming and power.
+- Computer (PC, laptop): A computer running Windows, Linux, or macOS is needed to program the Arduino and run the training pipeline.  
+  For data collection through the web-based interface, an up-to-date Chrome browser is required to support Web Bluetooth functionality.
+
+## Installing the Arduino Sketch
+
+Before running the project, make sure you can successfully connect your **Arduino Nano 33 BLE Sense** boards and upload sketches using either the **Arduino Desktop IDE** or the **Arduino Web Editor**. Once you are able to upload a simple test sketch without issues, follow the steps below.
 
 ### Arduino Desktop IDE
 
-If you're running using the downloaded Arduino application, you'll need to fetch the latest version of this sketch. The easiest way is to [download a zip file](https://github.com/petewarden/magic_wand/archive/main.zip) and unpack it, but if you're familiar with `git` you can clone this repository.
+If you are using the Arduino Desktop IDE, start by downloading the project files or cloning this repository using Git. Open the main `.ino` file in the Arduino IDE and ensure that the correct **board type** (Arduino Nano 33 BLE Sense) and **port** are selected.
 
-Open up the magic_wand.ino file in the Arduino editor, and make sure the Arduino board is visible and connected to the right port. You'll need to search for the some libraries that the sketch depends on, using Sketch->Include Library->Manage Libraries from the main menu. The [Arduino_LSM9DS1](https://github.com/arduino-libraries/Arduino_LSM9DS1) lets us access the accelerometer and gyroscope readings from the board's IMU, and you need at least version 1.1.0. We'll be using Bluetooth to communicate with the web page, so you should also search for [ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE) and make sure you've got version 1.1.3 or newer.
+This project depends on the following Arduino libraries, which must be installed manually via:
 
-You should now be able to press the upload button to compile and install the sketch on your board.
+**Sketch → Include Library → Manage Libraries**
+
+- **[Arduino_LSM9DS1](https://github.com/arduino-libraries/Arduino_LSM9DS1)** (version 1.1.0 or newer)  
+  Used to access accelerometer and gyroscope data from the onboard IMU.
+
+- ** [ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE)** (version 1.1.3 or newer)  
+  Used for Bluetooth communication during data collection and interaction with the web-based interface.
+
+After installing the required libraries, connect the Arduino board using a USB cable and click the **Upload** button to compile and install the sketch.
 
 ### Arduino Web Editor
 
-The web editor doesn't need any library installation, it automatically picks the most recent versions of any libraries required, so you should be able to make a copy of [the magic wand sketch](https://create.arduino.cc/editor/petewarden/f17a5544-ccae-4f1c-ad24-437cc92ea41f/preview) and then press upload to install it on your board.
-
-## Building the Wand
-
-The 'wand' itself can be as simple as a stick, it doesn't need to do anything other than keep the board at its end as you hold the other end and wave it about. For fun I often like to find cheap wands from online retailers and use them, but a simple piece of wood or ruler works just as well.
-
-You should place the board at the end of the wand, with the USB socket facing downwards, towards where you hold it, so that the cable can run down the handle. The sketch is designed to compensate for any rotation of the board around the wand's shaft, so as long as it's parallel to the wand's length the board's twist won't matter. Use sticky tape or some other easy-to-remove method to attach the board to the wand, and hold the cable in place along the shaft. The end result should look something like this:
-
-![Image of board attached to wand](https://petewarden.github.io/magic_wand/website/wand_attachment.jpg)
-
-If an ASCII-art diagram is more helpful, here's what you should aim for:
-
-```
-                      ____
-                     |    |<- Arduino board
-                     |    |
-                     | () |  <- Reset button
-                     |    |
-                      -TT-   <- USB port
-                       ||
-                       ||<- Wand
-                      ....
-                       ||
-                       ||
-                       ()
-```
+When using the Arduino Web Editor, no manual library installation is required. The editor automatically selects the latest compatible versions of all required libraries. Simply open or copy the project sketch into the web editor, connect the Arduino board, select the correct device, and press **Upload** to install the sketch.
 
 ## Viewing Gestures in the Browser
 
-To preview and record gestures, we'll be connecting the sketch you've just uploaded to a web page, using Bluetooth and Chrome's WebBLE API. The code for the page is [in this repository](https://github.com/petewarden/magic_wand/tree/main/website_, but it's all implemented using browser-side Javascript in a static HTML page, so you don't need to host it on your own server, using [this GitHub mirror](https://petewarden.github.io/magic_wand/website/index.html) should work.
+The data for this project were collected using the official Magic Wand web interface, using this browser-side Javascript in a static HTML page  
+https://petewarden.github.io/magic_wand/website/index.html  
+which connects to the IMU-equipped Arduino via Bluetooth, allowing users to perform gestures, record sensor data, label each gesture, and then download the resulting datasets.
 
 If the sketch has uploaded successfully, the Arduino should be advertising itself through Bluetooth. On the web page, press the 'Bluetooth' button to connect, and you should see a dialog appear asking you to pair with a device. After a second or two, there should be an entry that looks something like "BLESense-2F00". Click on that to pair, and you should be returned to the web page.
 
-If everything is working as expected, the Bluetooth button should turn blue, with "Connected" next to it. Now try moving the wand and look at the square below the button. As you gesture, you should see tracks appearing as lines in the web page in real time. Try doing small circles, or a 'Z' like Zorro!
-
-## Pretrained Model
-
-The sketch comes with a model that's been trained to recognize the hand-drawn digits zero to nine. This is based on data recorded by the author, so your accuracy may vary, but if you bring up the Serial Monitor in the Arduino IDE you can see what the model predicts for each gesture you make, with a confidence score between -128 and 127, as well as ASCII art of the gesture outline.
+If everything is working as expected, the Bluetooth button should turn blue, with "Connected" next to it. Now try moving the Arduino and look at the square below the button. As you gesture, you should see tracks appearing as lines in the web page in real time.
 
 ## Recording Gestures
 
-As you get familiar with the wand, so should notice that the gestures you have performed start to stack on the right side of the web page. This is where the data you'll eventually want to use for training is stored. When you leave or refresh the web page, these gestures will be lost, so make sure you use the "Download Data" link to save them locally if you've generated a number of them.
+As gestures are recorded, they appear in a stack on the right side of the web page. This stack temporarily stores the recorded gesture samples that will later be used for training the machine learning model. Since the recorded data will be lost if the page is refreshed or closed, all collected gestures must be saved locally using the **Download Data** option.
 
-The gestures are automatically split up by times when the wand is kept still. These pauses act like spaces between words, and so when you've finished a gesture you should stop moving the wand so that it ends cleanly.
+Gestures are automatically segmented based on periods where the device remains still. These short pauses act as natural separators between individual gesture samples. To ensure clean segmentation, users stop moving the Arduino briefly after completing each gesture.
 
-To get started, you should pick a couple of easy gestures to perform, like a 'Z' and an 'O'. As you make these gestures, you should see them appear in the right-hand stack of gestures. You can look at the shapes shown there to understand whether the gestures came out cleanly. A good rule of thumb is that if you can't tell what the gesture is by looking at it in the stack, then a model will have a hard time recognizing it too.
+For this project, two spell-based gestures, **W** and **O**, were recorded. As each gesture was performed, its shape was visualized in the gesture stack, allowing immediate visual inspection of data quality. This visualization step was important to ensure that the recorded gestures were clear, consistent, and distinguishable.
 
-Once you have ten or so of each gesture, scroll through the stack to review them. If any don't seem very recognizable, or are too 'sloppy' (which is very subjective unfortunately), then you can press the trash can button on the top right of the image to remove it. If you removed any, try recording some more so you have at least ten of each gesture. If you are happy with a gesture, click on the label at the top left to type in the correct name for it (for example `O` or `Z`).
+After recording multiple samples, the gesture stack was reviewed and low-quality or ambiguous samples were removed using the delete option. This process helped improve the overall quality of the dataset. Each remaining gesture sample was then manually labeled with the correct class name (e.g., `W`, `O` or `N`).
 
-After you've reviewed and labeled all of your data, you can download it as a JSON text file that can be used for training.
+Once all gesture samples were reviewed and labeled, the dataset was downloaded in **JSON format**, which was later used for preprocessing and training the gesture recognition model.
+
 
 ## Training
 
@@ -93,3 +84,4 @@ Once you have data, you should [run the Python training notebook in Colab](https
 The Python training process should give you a `magic_wand_model_data.cc` file. Replace the file of the same name that's in the sketch you're using with this version. You'll also need to update the `labels` and `label_count` variables near the top of the `magic_wand.ino` to reflect any changes you made to the gestures you're trying to recognize.
 
 Upload this modified sketch, and you should be able to perform gestures and see them recognized in the Serial Monitor of your Arduino editor.
+
