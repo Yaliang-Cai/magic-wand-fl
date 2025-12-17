@@ -16,9 +16,6 @@ The project covers the complete end-to-end workflow of a machine learning system
 
 This repository contains the full implementation, including datasets, training scripts, embedded code, and documentation, making it easy to understand, reproduce, and extend the project.
 
-> **Note:**  
-> The web-based gesture recording interface used for data collection is adapted from the Magic Wand example project by Pete Warden.
-
 ## Hardware Requirements
 
 To run this project, the following hardware is required:
@@ -43,7 +40,7 @@ This project depends on the following Arduino libraries, which must be installed
 - **[Arduino_LSM9DS1](https://github.com/arduino-libraries/Arduino_LSM9DS1)** (version 1.1.0 or newer)  
   Used to access accelerometer and gyroscope data from the onboard IMU.
 
-- ** [ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE)** (version 1.1.3 or newer)  
+- **[ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE)** (version 1.1.3 or newer)  
   Used for Bluetooth communication during data collection and interaction with the web-based interface.
 
 After installing the required libraries, connect the Arduino board using a USB cable and click the **Upload** button to compile and install the sketch.
@@ -54,9 +51,7 @@ When using the Arduino Web Editor, no manual library installation is required. T
 
 ## Viewing Gestures in the Browser
 
-The data for this project were collected using the official Magic Wand web interface, using this browser-side Javascript in a static HTML page  
-https://petewarden.github.io/magic_wand/website/index.html  
-which connects to the IMU-equipped Arduino via Bluetooth, allowing users to perform gestures, record sensor data, label each gesture, and then download the resulting datasets.
+The data for this project were collected using the official Magic Wand web interface, [using this browser-side Javascript in a static HTML page](https://petewarden.github.io/magic_wand/website/index.html) which connects to the IMU-equipped Arduino via Bluetooth, allowing users to perform gestures, record sensor data, label each gesture, and then download the resulting datasets.
 
 If the sketch has uploaded successfully, the Arduino should be advertising itself through Bluetooth. On the web page, press the 'Bluetooth' button to connect, and you should see a dialog appear asking you to pair with a device. After a second or two, there should be an entry that looks something like "BLESense-2F00". Click on that to pair, and you should be returned to the web page.
 
@@ -74,6 +69,8 @@ After recording multiple samples, the gesture stack was reviewed and low-quality
 
 Once all gesture samples were reviewed and labeled, the dataset was downloaded in **JSON format**, which was later used for preprocessing and training the gesture recognition model.
 
+- Note: The web-based gesture recording interface used for data collection is adapted from the Magic Wand example project by Pete Warden.
+
 
 ## Training
 
@@ -84,5 +81,6 @@ Once you have data, you should [run the Python training notebook in Colab](https
 The Python training process should give you a `magic_wand_model_data.cc` file. Replace the file of the same name that's in the sketch you're using with this version. You'll also need to update the `labels` and `label_count` variables near the top of the `magic_wand.ino` to reflect any changes you made to the gestures you're trying to recognize.
 
 Upload this modified sketch, and you should be able to perform gestures and see them recognized in the Serial Monitor of your Arduino editor.
+
 
 
