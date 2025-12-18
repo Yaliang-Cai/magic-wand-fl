@@ -15,7 +15,7 @@ extern const int classes_cnt;
 
 static const unsigned int NN_def[] = {first_layer_input_cnt, 20, classes_cnt};
 
-#include "data_B.h"      // <--- B 节点数据 (训练缺1)
+#include "Client_B_data.h"      // <--- B 节点数据 (训练缺1)
 #include "NN_functions.h"
 
 // BLE 服务定义

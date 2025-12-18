@@ -1,0 +1,143 @@
+
+>>> AUTOMATIC FL STARTED <<<
+
+=== ROUND 1 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 2 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 3 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 4 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 5 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 6 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 7 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 8 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 9 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 10 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 11 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 12 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 13 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 14 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 15 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 16 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 17 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 18 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 19 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+
+=== ROUND 20 ===
+[Local] Training started...
+[Local] Training Done.
+[BLE] Advertising... Waiting for Server connection...
+>>> ROUND COMPLETE: Model Updated <<<
+
+All rounds finished. Stopping.
