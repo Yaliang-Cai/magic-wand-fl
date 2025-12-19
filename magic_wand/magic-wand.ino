@@ -27,8 +27,8 @@ limitations under the License.
 #include "tensorflow/lite/schema/schema_generated.h"
 
 // Include classification head
-#include "FL/FL_Central/Inference_Lite.h"
-#include "FL/FL_Central/TrainedModel.h"
+#include "../FL/FL_Central/Inference_Lite.h"
+#include "../FL/FL_Central/TrainedModel.h"
 
 #define BLE_SENSE_UUID(val) ("4798e0f2-" val "-4d68-af64-8a8f5258404e")
 
