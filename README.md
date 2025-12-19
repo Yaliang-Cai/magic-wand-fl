@@ -25,6 +25,40 @@ To run this project, the following hardware is required:
 - Computer (PC, laptop): A computer running Windows, Linux, or macOS is needed to program the Arduino and run the training pipeline.  
   For data collection through the web-based interface, an up-to-date Chrome browser is required to support Web Bluetooth functionality.
 
+  ## Project Architecture
+
+<p align="center">
+  <img src="website/unname111d.jpg" width="35%">
+</p>
+
+This project adopts a **hybrid and distributed TinyML architecture** designed to operate under strict memory and computation constraints while maintaining reliable gesture recognition performance.
+
+The overall system is divided into two main components: **PC-side processing (offline phase)** and **edge-device processing on Arduino (online phase)**. Computationally intensive tasks are handled on the PC, while lightweight training and inference are performed directly on the Arduino devices.
+
+### PC-side Processing (Offline Phase)
+
+On the PC, raw IMU gesture data is preprocessed and converted into **image-based representations** suitable for convolutional neural networks (CNNs). A shared CNN **backbone model** is trained using a dedicated backbone dataset to learn generic motion features.
+
+After training, the backbone is **frozen**, meaning its parameters are no longer updated. This frozen backbone is then used to extract **feature vectors** from gesture samples. These feature vectors are pre-computed on the PC and transferred to the Arduino devices, eliminating the need for raw data processing or deep feature extraction on resource-constrained hardware.
+
+### Edge-device Processing (Online Phase)
+
+Each Arduino Nano 33 BLE Sense device runs the **frozen backbone for inference only** and trains a lightweight **classifier head** on top of the extracted feature vectors. This significantly reduces both memory usage and computational cost on the device.
+
+The data distribution across devices is intentionally **Non-IID**:
+- **Arduino A** is trained on **O + Noise** samples  
+- **Arduino B** is trained on **W + Noise** samples  
+
+Each device updates only its local classifier head using its available data, while the shared backbone remains unchanged. This setup reflects realistic edge-computing scenarios where devices observe different subsets of the data.
+
+### Key Design Advantages
+
+- Heavy computation is offloaded to the PC  
+- On-device training and inference remain lightweight  
+- Memory and computation constraints of Arduino devices are respected  
+- The system reflects realistic, distributed IoT learning conditions  
+
+
 ## Installing the Arduino Sketch
 
 Before running the project, make sure you can successfully connect your **Arduino Nano 33 BLE Sense** boards and upload sketches using either the **Arduino Desktop IDE** or the **Arduino Web Editor**. Once you are able to upload a simple test sketch without issues, follow the steps below.
@@ -53,6 +87,10 @@ When using the Arduino Web Editor, no manual library installation is required. T
 
 The data for this project were collected using the official Magic Wand web interface, [using this browser-side Javascript in a static HTML page](https://petewarden.github.io/magic_wand/website/index.html) which connects to the IMU-equipped Arduino via Bluetooth, allowing users to perform gestures, record sensor data, label each gesture, and then download the resulting datasets.
 
+<p align="center">
+  <img src="website/webInteface.png" width="35%">
+</p>
+
 If the sketch has uploaded successfully, the Arduino should be advertising itself through Bluetooth. On the web page, press the 'Bluetooth' button to connect, and you should see a dialog appear asking you to pair with a device. After a second or two, there should be an entry that looks something like "BLESense-2F00". Click on that to pair, and you should be returned to the web page.
 
 If everything is working as expected, the Bluetooth button should turn blue, with "Connected" next to it. Now try moving the Arduino and look at the square below the button. As you gesture, you should see tracks appearing as lines in the web page in real time.
@@ -71,16 +109,37 @@ Once all gesture samples were reviewed and labeled, the dataset was downloaded i
 
 - Note: The web-based gesture recording interface used for data collection is adapted from the Magic Wand example project by Pete Warden.
 
-
 ## Training
 
-Once you have data, you should [run the Python training notebook in Colab](https://colab.research.google.com/github/petewarden/magic_wand/blob/main/train/train_magic_wand_model.ipynb and follow the steps to create and export your own model.
+<p align="center">
+  <img src="website/frozen.png" width="35%">
+</p>
+
+
+The training process is performed on a PC and focuses on learning compact and transferable representations of motion-based gestures.
+
+Instead of directly modeling raw IMU time-series data, each gesture is first converted into an **image-based representation** that captures the trajectory and motion pattern over time. This transformation simplifies the learning problem and enables the use of efficient convolutional neural networks.
+
+A shared **CNN backbone** is trained using a dedicated subset of the dataset to learn generic motion features that are independent of a specific gesture class. After training, the backbone is frozen and reused across all devices, ensuring consistent feature extraction.
+
+The model architecture and training process are designed with **TinyML constraints in mind**, favoring compact layers and lightweight operations to enable deployment on resource-constrained hardware.
+
+Training is implemented in a Python environment using TensorFlow and is available as a Colab notebook for reproducibility.
 
 ## Deployment
 
-The Python training process should give you a `magic_wand_model_data.cc` file. Replace the file of the same name that's in the sketch you're using with this version. You'll also need to update the `labels` and `label_count` variables near the top of the `magic_wand.ino` to reflect any changes you made to the gestures you're trying to recognize.
+After training, the model is deployed to Arduino Nano 33 BLE Sense devices using **TensorFlow Lite Micro**.
+
+To meet the strict memory and computation limits of the Arduino platform, the deployment follows a lightweight inference strategy:
+- The CNN **backbone remains frozen** and is used only for feature extraction
+- Only a small **classifier head** is executed and updated on the device
+- No raw image processing or deep training is performed on the Arduino
+
+This design ensures that on-device inference and training remain efficient while respecting **TinyML constraints**, including limited RAM and flash memory. As a result, the system can perform real-time gesture recognition directly on the edge devices with minimal computational overhead.
+
 
 Upload this modified sketch, and you should be able to perform gestures and see them recognized in the Serial Monitor of your Arduino editor.
+
 
 
 
