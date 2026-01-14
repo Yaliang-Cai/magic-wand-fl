@@ -6,6 +6,10 @@
 - **CNN骨干网络** (TensorFlow Lite Micro)：从IMU传感器数据中提取64维特征
 - **轻量级分类头**：自定义神经网络 (64→20→3) 用于手势分类
 
+## 演示视频
+📺 YouTube 演示： [点击观看](https://youtu.be/VZNKlO5pTbw?si=IQ26gTzgAoTkZJx2)  
+🎥 仓库本地视频： [demo.mp4](demo.mp4)
+
 ## 主要特性
 
 - ✅ 使用IMU传感器实时识别手势
@@ -165,6 +169,7 @@ const unsigned int NN_DEF[] = {64, 20, 3};
 - CNN Tensor Arena：30KB
 - 分类头：约5KB
 - 特征缓冲：256字节
+
 
 
 
