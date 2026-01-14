@@ -7,8 +7,8 @@ A complete gesture recognition system for Arduino Nano 33 BLE Sense that combine
 - **Lightweight Classification Head**: Custom neural network (64→20→3) for gesture classification
 
 ## Demo Video
-📺 Watch the system in action: [Demo video](https://youtu.be/VZNKlO5pTbw?si=IQ26gTzgAoTkZJx2)
-
+📺 YouTube demo: [Watch here](https://youtu.be/VZNKlO5pTbw?si=IQ26gTzgAoTkZJx2)  
+🎥 Local demo (in this repo): [Demo.mp4](Demo.mp4)
 
 ## Features
 
@@ -171,6 +171,7 @@ const unsigned int NN_DEF[] = {64, 20, 3};
 - CNN Tensor Arena: 30KB
 - Classification Head: ~5KB
 - Feature Buffer: 256 bytes
+
 
 
 
