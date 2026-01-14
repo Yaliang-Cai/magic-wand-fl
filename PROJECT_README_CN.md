@@ -8,7 +8,7 @@
 
 ## 演示视频
 📺 YouTube 演示： [点击观看](https://youtu.be/VZNKlO5pTbw?si=IQ26gTzgAoTkZJx2)  
-🎥 仓库本地视频： [demo.mp4](demo.mp4)
+🎥 仓库本地视频： [Demo.mp4](Demo.mp4)
 
 ## 主要特性
 
@@ -169,6 +169,7 @@ const unsigned int NN_DEF[] = {64, 20, 3};
 - CNN Tensor Arena：30KB
 - 分类头：约5KB
 - 特征缓冲：256字节
+
 
 
 
